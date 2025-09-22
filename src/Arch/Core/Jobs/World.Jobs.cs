@@ -102,10 +102,13 @@ public partial class World
         // Cast pool in an unsafe fast way and run the query.
         var pool = JobMeta<ChunkIterationJob<T>>.Pool;
         var query = Query(in queryDescription);
+
+        // It seems to help to overqueue tasks even above the job scheduler configured threads
+        int threads = Math.Max(Environment.ProcessorCount / 2, SharedJobScheduler.ThreadCount);
         foreach (var archetype in query.GetArchetypeIterator())
         {
             var archetypeSize = archetype.ChunkCount;
-            var part = new RangePartitioner(Environment.ProcessorCount, archetypeSize);
+            var part = new RangePartitioner(threads, archetypeSize);
             foreach (var range in part)
             {
                 var job = pool.Get();
@@ -156,10 +159,11 @@ public partial class World
 
         // Cast pool in an unsafe fast way and run the query.
         var query = Query(in queryDescription);
+        int threads = Math.Max(Environment.ProcessorCount / 2, SharedJobScheduler.ThreadCount);
         foreach (var archetype in query.GetArchetypeIterator())
         {
             var archetypeSize = archetype.ChunkCount;
-            var part = new RangePartitioner(Environment.ProcessorCount, archetypeSize);
+            var part = new RangePartitioner(threads, archetypeSize);
             foreach (var range in part)
             {
                 var job = new ChunkIterationJob<T>
