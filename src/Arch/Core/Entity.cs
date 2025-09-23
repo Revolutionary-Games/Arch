@@ -1,3 +1,5 @@
+using System.Globalization;
+
 #if !PURE_ECS
 using Arch.Core.Extensions;
 using Arch.Core.Utils;
@@ -276,7 +278,8 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     /// <returns>Its string.</returns>
     public override string ToString()
     {
-        return $"Entity = {{ {nameof(Id)} = {Id}, {nameof(WorldId)} = {WorldId}, {nameof(Version)} = {Version} }}";
+        return string.Format(CultureInfo.InvariantCulture, "Entity = {{ {0} = {1}, {2} = {3}, {4} = {5} }}",
+            nameof(Id), Id, nameof(WorldId), WorldId, nameof(Version), Version);
     }
 }
 #endif
