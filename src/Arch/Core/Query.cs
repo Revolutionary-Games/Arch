@@ -595,18 +595,21 @@ public partial class Query : IEquatable<Query>
         }
 
         // Check all archetypes and update list
-        var allArchetypes = _allArchetypes.AsSpan();
-        _matchingArchetypes.Clear();
-        foreach (var archetype in allArchetypes)
+        lock(_matchingArchetypes)
         {
-            var matches = Matches(archetype.BitSet);
-            if (matches)
+            var allArchetypes = _allArchetypes.AsSpan();
+            _matchingArchetypes.Clear();
+            foreach (var archetype in allArchetypes)
             {
-                _matchingArchetypes.Add(archetype);
+                var matches = Matches(archetype.BitSet);
+                if (matches)
+                {
+                    _matchingArchetypes.Add(archetype);
+                }
             }
-        }
 
-        _allArchetypesHashCode = newArchetypesHashCode;
+            _allArchetypesHashCode = newArchetypesHashCode;
+        }
     }
 
     /// <summary>
