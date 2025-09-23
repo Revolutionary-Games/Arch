@@ -389,15 +389,18 @@ public partial class World : IDisposable
     {
         // Looping over all archetypes, their chunks and their entities.
         var queryCache = QueryCache; // Storing locally to only access the QueryCache once
-        if (queryCache.TryGetValue(queryDescription, out var query))
+        lock(queryCache)
         {
+            if (queryCache.TryGetValue(queryDescription, out var query))
+            {
+                return query;
+            }
+
+            query = new Query(Archetypes, queryDescription);
+            queryCache[queryDescription] = query;
+
             return query;
         }
-
-        query = new Query(Archetypes, queryDescription);
-        queryCache[queryDescription] = query;
-
-        return query;
     }
 
     /// <summary>
@@ -1761,12 +1764,12 @@ public partial class World
             {
                 continue;
             }
-            
+
             var newArchetype = copy.GetOrCreate(archetype.Signature);
             Archetype.Copy(archetype, newArchetype, false);
             copy.Size += newArchetype.EntityCount;
         }
-        
+
         return copy;
     }
 }
