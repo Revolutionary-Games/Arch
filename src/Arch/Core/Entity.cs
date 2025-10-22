@@ -208,7 +208,7 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     /// </summary>
     public static Entity MakeHackedEntity(int id, int worldId, int version)
     {
-        return Entity(id, worldId, version);
+        return new Entity(id, worldId, version);
     }
 
     /// <summary>
