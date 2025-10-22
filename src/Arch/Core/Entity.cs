@@ -203,6 +203,15 @@ public readonly struct Entity : IEquatable<Entity>, IComparable<Entity>
     }
 
     /// <summary>
+    ///      Makes an entity with very specific data. Very dangerous so don't use unless you know exactly what you
+    ///      need.
+    /// </summary>
+    public static Entity MakeHackedEntity(int id, int worldId, int version)
+    {
+        return Entity(id, worldId, version);
+    }
+
+    /// <summary>
     ///     Checks the <see cref="Entity"/> for equality with another one.
     /// </summary>
     /// <param name="other">The other <see cref="Entity"/>.</param>
