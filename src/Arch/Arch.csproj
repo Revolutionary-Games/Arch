@@ -33,7 +33,7 @@
     <AllowUnsafeBlocks>true</AllowUnsafeBlocks>
     <Copyright>Apache2.0</Copyright>
 
-    <NoWarn>1701;1702;1591;8601;1572;1573;1574;8767</NoWarn>
+    <NoWarn>1701;1702;1591;8601;1572;1573;1574;8767;IDE2000;IDE2003;IDE2001;IDE0011;IDE0161;IDE0032;IDE0017</NoWarn>
 
     <Configurations>Debug;Debug-PureECS;Debug-Events;Release;Release-PureECS;Release-Events;</Configurations>
 
