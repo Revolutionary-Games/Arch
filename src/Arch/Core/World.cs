@@ -54,7 +54,7 @@ public interface IForEach
     /// </summary>
     /// <param name="entity">The <see cref="Entity"/>.</param>
 
-    public void Update(Entity entity);
+    void Update(Entity entity);
 }
 
 /// <summary>

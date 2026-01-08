@@ -102,7 +102,7 @@ public readonly ref struct Range
 /// </summary>
 public interface IChunkJob
 {
-    public void Execute(ref Chunk chunk);
+    void Execute(ref Chunk chunk);
 }
 
 /// <summary>
