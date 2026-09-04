@@ -71,7 +71,18 @@ public static partial class EntityExtensions
     [Pure]
     public static bool IsAlive(this in Entity entity)
     {
+#if DEBUG
+        if (entity.WorldId < 0 || entity.WorldId >= World.Worlds.Length)
+            throw new InvalidOperationException("World index is out of range");
+#endif
+
         var world = World.Worlds.DangerousGetReferenceAt(entity.WorldId);
+
+#if DEBUG
+        if (world == null!)
+            throw new InvalidOperationException("World is null");
+#endif
+
         return world.IsAlive(entity);
     }
 
@@ -84,7 +95,18 @@ public static partial class EntityExtensions
     [Pure]
     public static ref EntityData IsAlive(this in Entity entity, out bool exists)
     {
+#if DEBUG
+        if (entity.WorldId < 0 || entity.WorldId >= World.Worlds.Length)
+            throw new InvalidOperationException("World index is out of range");
+#endif
+
         var world = World.Worlds.DangerousGetReferenceAt(entity.WorldId);
+
+#if DEBUG
+        if (world == null!)
+            throw new InvalidOperationException("World is null");
+#endif
+
         return ref world.IsAlive(entity, out exists);
     }
 
@@ -106,7 +128,6 @@ public static partial class EntityExtensions
     /// <typeparam name="T">The component type.</typeparam>
     /// <param name="entity">The <see cref="Entity"/>.</param>
     /// <returns>True if it has the desired component, otherwise false.</returns>
-
     [Pure]
     public static bool Has<T>(this in Entity entity)
     {
@@ -120,7 +141,6 @@ public static partial class EntityExtensions
     /// <typeparam name="T">The component type.</typeparam>
     /// <param name="entity">The <see cref="Entity"/>.</param>
     /// <returns>A reference to the component.</returns>
-
     [Pure]
     public static ref T Get<T>(this in Entity entity)
     {
@@ -136,7 +156,6 @@ public static partial class EntityExtensions
     /// <param name="entity">The <see cref="Entity"/>.</param>
     /// <param name="component">The found component.</param>
     /// <returns>True if it exists, otherwise false.</returns>
-
     [Pure]
     public static bool TryGet<T>(this in Entity entity, out T? component)
     {
@@ -151,7 +170,6 @@ public static partial class EntityExtensions
     /// <param name="entity">The <see cref="Entity"/>.</param>
     /// <param name="exists">True if it exists, oterhwhise false.</param>
     /// <returns>A reference to the component.</returns>
-
     [Pure]
     public static ref T TryGetRef<T>(this in Entity entity, out bool exists)
     {
@@ -166,7 +184,6 @@ public static partial class EntityExtensions
     /// <param name="entity">The <see cref="Entity"/>.</param>
     /// <param name="component">The component value used if its being added.</param>
     /// <returns>A reference to the component.</returns>
-
     public static ref T AddOrGet<T>(this in Entity entity, T? component = default)
     {
         var world = World.Worlds.DangerousGetReferenceAt(entity.WorldId);
@@ -179,7 +196,6 @@ public static partial class EntityExtensions
     /// <param name="entity">The <see cref="Entity"/>.</param>
     /// <param name="component">The component instance, optional.</param>
     /// <typeparam name="T">The component type.</typeparam>
-
     public static void Add<T>(this in Entity entity, in T? component = default)
     {
         var world = World.Worlds.DangerousGetReferenceAt(entity.WorldId);
@@ -191,7 +207,6 @@ public static partial class EntityExtensions
     /// </summary>
     /// <typeparam name="T">The component type.</typeparam>
     /// <param name="entity">The <see cref="Entity"/>.</param>
-
     public static void Remove<T>(this in Entity entity)
     {
         var world = World.Worlds.DangerousGetReferenceAt(entity.WorldId);
@@ -202,7 +217,6 @@ public static partial class EntityExtensions
 
 public static partial class EntityExtensions
 {
-
 #if !PURE_ECS
 
     /// <summary>
